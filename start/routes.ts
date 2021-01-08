@@ -28,6 +28,20 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+Route.post('/users/register', 'UsersController.register')
+Route.post('/users/login', 'UsersController.login')
+
 /**
- * Parking controller
+ * Place controller
  */
+
+Route.group(() => {
+  Route.post('register', 'PlacesController.registerPlace')
+  Route.get('statistics', 'PlacesController.showStatistics')
+  Route.post(':placeId', 'PlacesController.updatePlace')
+  Route.post(':placeId/release', 'PlacesController.freePlace')
+})
+  .prefix('places')
+  .middleware('admin')
+
+Route.get('show', 'PlacesController.showPlaces').prefix('places')

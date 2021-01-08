@@ -1,15 +1,17 @@
 import { DateTime } from 'luxon'
-import { column, BaseModel, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuid } from 'uuid'
+import { column, BaseModel, beforeCreate, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 
 export default class Place extends BaseModel {
   @column({ isPrimary: true })
-  public uuid: string
+  public id: string
 
-  @hasOne(() => User, {
-    foreignKey: 'userId',
-  })
-  public profile: HasOne<typeof User>
+  @belongsTo(() => User)
+  public userAssigned: BelongsTo<typeof User>
+
+  @column()
+  public userId: string
 
   @column()
   public placeCode: string
@@ -21,5 +23,14 @@ export default class Place extends BaseModel {
   public isAvailable: boolean
 
   @column.dateTime()
-  public assignedAt: DateTime
+  public assignedAt?: DateTime | null
+
+  /**
+   * Auto-generate uuid of place
+   * @param user Place object concerned before creation in database
+   */
+  @beforeCreate()
+  public static async generateId(place: Place) {
+    place.id = uuid()
+  }
 }
