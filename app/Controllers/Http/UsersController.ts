@@ -4,8 +4,11 @@ import LoginValidator from 'App/Validators/LoginValidator'
 import RegisterValidator from 'App/Validators/RegisterValidator'
 
 export default class UsersController {
-  public async register({ request, auth }: HttpContextContract) {
+  public async register({ request, auth, response }: HttpContextContract) {
     const data = await request.validate(RegisterValidator)
+
+    if (data.role === 'ADMIN' && auth.use('api').user?.role !== 'ADMIN')
+      return response.unauthorized('Not authorized to create user with ADMIN role')
 
     const user = await User.create(data)
     const token = await auth.use('api').login(user, {

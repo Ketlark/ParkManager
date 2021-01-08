@@ -20,11 +20,10 @@ export default class PlacesController {
     if (!place) return response.badRequest('No place found')
     if (!user) return response.badRequest('No user found')
 
-    place.related('userAssigned').associate(user)
     place.assignedAt = DateTime.fromJSDate(new Date())
     place.isAvailable = false
 
-    return await place.save()
+    return await place.related('userAssigned').associate(user)
   }
 
   public async freePlace({ response, params }: HttpContextContract) {
@@ -35,11 +34,10 @@ export default class PlacesController {
       return response.badRequest('Place is already available')
     }
 
-    place.related('userAssigned').dissociate()
     place.assignedAt = null
     place.isAvailable = false
 
-    return await place.save()
+    return await place.related('userAssigned').dissociate()
   }
 
   public async showPlaces({ auth, request, response }: HttpContextContract) {

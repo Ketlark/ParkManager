@@ -3,8 +3,6 @@
 
 ---
 
-<br>
-
 ## Setup
 
 In this part, run all the commands in root folder of project.
@@ -15,12 +13,10 @@ In this part, run all the commands in root folder of project.
 yarn
 ```
 
-<br>
-
 ### Database configuration & seed
 
-Next, you need some dummy data to test API. Ensure you have a postgree database started before
-The Postgree configuration can be set in .env file, you will se these variables :
+Next, you need some dummy data to test API. Ensure you have a postgree database started before.
+The Postgree configuration can be set in .env file, you will see these variables :
 
 ```javascript
 PG_HOST=localhost
@@ -30,14 +26,14 @@ PG_PASSWORD=password
 PG_DB_NAME=parkmanager
 ```
 
-Once it's done, you need to construct database 
+Once it's done, you need to construct the database 
 
 ```
 node ace migration:run
 ```
 
 If anything goes wrong during this step, type 
-```node ace migration:rollback``` to clean database and retry
+```node ace migration:rollback``` to clean the database and retry
 
 Finally, fill it with some dummy data
 
@@ -51,8 +47,8 @@ Testing accounts :
 
 | email        | password           | role  |
 | ------------- |:-------------| :-----|
-| test.park@gmail.com      | password | user |
-| test.park.admin@gmail.com      | passwod      |  admin |
+| test.park@gmail.com      | password | USER |
+| test.park.admin@gmail.com      | passwod      |  ADMIN |
 
 <br>
 
@@ -62,13 +58,12 @@ Testing accounts :
 yarn start
 ```
 
-API run on 3333 port as default, you can change it in .env file
+The API runs on 3333 port by default, you can change it in .env file
 <br>
 <br>
 
 ### Documentation
 ---
-<br>
 #### Users routes : 
 
 | Type        | URL           | Body  | Response |
@@ -76,13 +71,14 @@ API run on 3333 port as default, you can change it in .env file
 | POST | /users/register | {email: string, password: string, password_confirmation: string, firstname: string, lastname: string, role?: string} | Bearer Token
 | POST | /users/login | {email: string, password: string} | Bearer Token
 
-<br>
+Obviously, you need to be already logged with admin role to create another one 😎 
 
-#### Users routes : 
+
+#### Places routes :
 
 | Type        | URL           | Body / Params | Response | Role
 | ------------- |:-------------| :-----| :-----| :-----|
-| GET | /places/show | Params authorized : floor, userId, id (place) | List of places
+| GET | /places/show | Params authorized : floor, userId, id (place) | List of places | *
 | GET | /places/statistics | / | Show parking statistics | ADMIN
 | POST | /places/register | {placeCode: string, floor: number} | Place object | ADMIN
 | POST | /places/:placeId | {userAssigned: string} | Updated place object | ADMIN
