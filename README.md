@@ -48,7 +48,7 @@ Testing accounts :
 | email        | password           | role  |
 | ------------- |:-------------| :-----|
 | test.park@gmail.com      | password | USER |
-| test.park.admin@gmail.com      | passwod      |  ADMIN |
+| test.park.admin@gmail.com      | password      |  ADMIN |
 
 <br>
 
